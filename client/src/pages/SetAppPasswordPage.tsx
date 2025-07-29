@@ -76,17 +76,7 @@ export default function SetAppPasswordPage() {
         setTimeout(() => setToast(null), 3000);
     };
 
-    useEffect(() => {
-        // Redirect if:
-        // 1. Not a Google-authed user needing password
-        // 2. Regular user who already has password
-        if (!authLoading && user) {
-            const shouldRedirect = !(user.google_id && !user.has_password && !user.email_verified);
-            if (shouldRedirect) {
-                navigate('/dashboard', { replace: true });
-            }
-        }
-    }, [user, authLoading, navigate]);
+
 
     const handleSetPasswordSubmit = async (e: React.FormEvent) => {
         e.preventDefault();

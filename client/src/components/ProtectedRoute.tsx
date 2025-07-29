@@ -54,21 +54,6 @@ const ProtectedRoute: React.FC = () => {
         return <Navigate to="/dashboard" replace />;
     }
 
-    // Scenario 3: User is authenticated but does NOT have a Google ID linked
-    // AND they are trying to access a protected route (not a special auth path)
-    // AND they are NOT on the /link-accounts page (where they would link it)
-    if (!user.google_id && !isSpecialAuthPath && location.pathname !== '/link-accounts') {
-        // This scenario would typically be handled by the login/register page
-        // navigating to /link-accounts if the backend returns the specific error.
-        // This is more of a fallback to ensure they don't get stuck in protected areas
-        // if they somehow bypass the initial redirection.
-        // For now, we'll let the login/register page handle the initial redirect
-        // to /link-accounts, and this ProtectedRoute will ensure they can't
-        // access other protected routes if they need to link.
-        // If you want to force linking before dashboard, uncomment and refine this:
-        // return <Navigate to="/link-accounts" replace />;
-    }
-
     // If authenticated and no special password-setting/linking redirection needed, render nested routes
     return <Outlet />;
 };
