@@ -27,6 +27,10 @@ const ProtectedRoute: React.FC = () => {
         return <Navigate to="/login" replace />;
     }
 
+    if (user.google_id && location.pathname === "/link-accounts") {
+        return <Navigate to="/dashboard" replace />;
+    }
+
     // --- Redirection Logic for Special Auth Pages ---
 
     // Define paths that are "special" and should only be accessed under specific conditions

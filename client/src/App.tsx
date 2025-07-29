@@ -13,6 +13,7 @@ import VerifyEmailNoticePage from './pages/VerifyEmailNoticePage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import SetAppPasswordPage from './pages/SetAppPasswordPage';
 import LinkAccountsPage from './pages/LinkAccountsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -26,31 +27,25 @@ function App() {
         <Route path="/resend-verification" element={<ResendVerificationPage />} />
         <Route path="/request-reset" element={<RequestPasswordResetPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
-        <Route path="/set-app-password" element={<SetAppPasswordPage />} />
-        <Route path="/link-accounts" element={<LinkAccountsPage />} />
 
-        {/*
-          Protected Routes:
-          - Wrapped by <Layout /> for common layout elements (e.g., header, sidebar).
-          - Then wrapped by <ProtectedRoute /> to enforce authentication for all nested routes.
-        */}
-        <Route element={<Layout />}> {/* Parent route for common layout */}
-          <Route element={<ProtectedRoute />}> {/* Parent route for authentication */}
-            {/* Nested Protected Routes */}
-            <Route path="/" element={<DashboardPage />} /> {/* Root path for authenticated users */}
-            <Route path="/dashboard" element={<DashboardPage />} /> {/* Explicitly define /dashboard */}
+        {/* Protected Routes (require auth) */}
+        <Route element={<Layout />}>
+          <Route element={<ProtectedRoute />}>
+            {/* Main App Routes */}
+            <Route path="/" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/tasks/new" element={<TaskFormPage />} />
             <Route path="/tasks/archive" element={<ArchivedTasksPage />} />
             <Route path="/tasks/:id/edit" element={<TaskFormPage />} />
+
+            {/* Special Post-Login Setup Routes */}
+            <Route path="/set-app-password" element={<SetAppPasswordPage />} />
+            <Route path="/link-accounts" element={<LinkAccountsPage />} />
           </Route>
         </Route>
 
-        {/* Fallback for unmatched routes (e.g., 404 page) */}
-        <Route path="*" element={
-          <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <h1 className="text-2xl text-gray-700">404 - Page Not Found</h1>
-          </div>
-        } />
+        {/* 404 Fallback */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );
